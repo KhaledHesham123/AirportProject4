@@ -1,0 +1,35 @@
+﻿@model AirportProject4.Project.core.DTOS.AuthentivationDtos.USerDto
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<h2 class="mb-4 text-primary">👤 User Information</h2>
+
+<div class="card shadow-lg border-0 rounded-4" style="max-width: 450px;">
+    <div class="card-body">
+        <p><strong>Display Name:</strong> @Model.DisplayName</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+
+        <p>
+            <strong>Passport Number:</strong>
+            @if (!string.IsNullOrEmpty(Model.PassportNumber))
+            {
+                <span class="text-dark">@Model.PassportNumber</span>
+            }
+            else
+            {
+                <span class="text-muted">N/A</span>
+            }
+        </p>
+
+        <div class="mt-3" style="word-wrap: break-word;">
+            <strong>Token:</strong>
+            <p class="small text-muted">@Model.Token</p>
+        </div>
+    </div>
+</div>
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-primary mt-3">
+    ← Back to Home
+</a>

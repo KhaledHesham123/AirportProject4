@@ -1,0 +1,48 @@
+﻿@model AirportProject4.Project.core.DTOS.ViewModles.RoleviewModle
+
+@{
+    ViewData["Title"] = "Create Role";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">🛠️ Create New Role</h3>
+        </div>
+        <div class="card-body p-4">
+
+            <!-- ✅ عرض كل الأخطاء من ModelState -->
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach (var modelState in ViewData.ModelState.Values)
+                        {
+                            foreach (var error in modelState.Errors)
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            }
+
+            <form asp-action="Createrole" asp-controller=" Admin" method="post">
+                <div class="mb-3">
+                    <label asp-for="RoleName" class="form-label fw-bold">Role Name</label>
+                    <input asp-for="RoleName" class="form-control" placeholder="Enter role name..." />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Create Role
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

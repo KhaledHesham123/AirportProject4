@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "_Layout"; // استخدم الـ Layout اللي أرسلته
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="mb-4 text-primary fw-bold">
+            👨‍💼 Admin Dashboard
+        </h1>
+        <p class="lead text-muted">
+            Welcome, Admin! You can manage users and system operations from here.
+        </p>
+
+        <!-- ✅ زر يودّي على صفحة إنشاء المستخدم -->
+        <a asp-controller="Admin" asp-action="CreateNewUser" class="btn btn-success btn-lg mt-4">
+            ➕ Create New User
+        </a>
+
+        <!-- 🔹 روابط إضافية -->
+        <div class="mt-5 d-flex justify-content-center gap-3 flex-wrap">
+            <a asp-controller="User" asp-action="GetUsers" class="btn btn-outline-primary">
+                👥 View All Users
+            </a>
+            <a asp-controller="Flight" asp-action="GetAllFlights" class="btn btn-outline-info">
+                ✈️ Manage Flights
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                🏠 Back to Home
+            </a>
+        </div>
+    </div>
+</div>

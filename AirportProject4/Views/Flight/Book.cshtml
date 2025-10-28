@@ -1,0 +1,67 @@
+﻿@model AirportProject4.Project.core.DTOS.ViewModles.FlightBookviewmodle
+
+@{
+    ViewData["Title"] = "Book Flight";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">✈ Book Flight</h2>
+
+    <!-- 🔴 إظهار رسالة الخطأ لو موجودة -->
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger text-center">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card shadow p-4 rounded">
+        <form asp-action="Book" method="post">
+            <!-- Hidden Flight Info -->
+            <input type="hidden" asp-for="FlightId" />
+            <input type="hidden" asp-for="FlightNumber" />
+
+            <!-- Flight Info (read only) -->
+            <div class="mb-3">
+                <label class="form-label">Flight Number</label>
+                <input type="text" class="form-control" value="@Model.FlightNumber" readonly />
+            </div>
+
+            <!-- Seat Type -->
+            <div class="mb-3">
+                <label asp-for="SeatType" class="form-label">Seat Type</label>
+                <select asp-for="SeatType" class="form-select">
+                    <option value="Economy" selected>Economy</option>
+                    <option value="Business">Business</option>
+                    <option value="First">First</option>
+                </select>
+                <span asp-validation-for="SeatType" class="text-danger"></span>
+            </div>
+
+            <!-- Passenger Full Name -->
+            <div class="mb-3">
+                <label asp-for="PassengerFullName" class="form-label">Passenger Full Name</label>
+                <input asp-for="PassengerFullName" class="form-control" placeholder="Enter full name" />
+                <span asp-validation-for="PassengerFullName" class="text-danger"></span>
+            </div>
+
+            <!-- Passenger Passport Number -->
+            <div class="mb-3">
+                <label asp-for="PassengerPassportNumber" class="form-label">Passport Number</label>
+                <input asp-for="PassengerPassportNumber" class="form-control" placeholder="Enter passport number" />
+                <span asp-validation-for="PassengerPassportNumber" class="text-danger"></span>
+            </div>
+
+            <!-- Submit -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4">Book Now</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

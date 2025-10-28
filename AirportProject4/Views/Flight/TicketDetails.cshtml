@@ -1,0 +1,36 @@
+﻿@model AirportProject4.Project.core.Entities.main.Ticket
+
+@{
+    ViewData["Title"] = "🎫 Ticket Details";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🎫 Ticket Details</h2>
+
+    <div class="card shadow p-4 rounded">
+        <dl class="row">
+            <dt class="col-sm-3">Ticket ID</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+
+            <dt class="col-sm-3">Flight Number</dt>
+            <dd class="col-sm-9">@Model.Flight?.FlightNumber</dd>
+
+            <dt class="col-sm-3">Passenger Name</dt>
+            <dd class="col-sm-9">@Model.User?.FullName</dd>
+
+            <dt class="col-sm-3">Passport Number</dt>
+            <dd class="col-sm-9">@Model.User?.PassportNumber</dd>
+
+            <dt class="col-sm-3">Seat</dt>
+            <dd class="col-sm-9">@Model.Seat?.SeatNumber ?? "Not Assigned"</dd>
+
+            <dt class="col-sm-3">Price</dt>
+            <dd class="col-sm-9">@Model.Price.ToString("C")</dd>
+        </dl>
+
+        <div class="text-center mt-4">
+            <a asp-action="Index" asp-controller="Flight" class="btn btn-secondary px-4">🔙 Back to Flights</a>
+            <a asp-action="PrintTicket" asp-route-id="@Model.Id" class="btn btn-primary px-4">🖨 Print Ticket</a>
+        </div>
+    </div>
+</div>

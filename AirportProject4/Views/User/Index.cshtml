@@ -1,0 +1,64 @@
+﻿@model List<AirportProject4.Project.core.DTOS.ViewModles.UserviewModle>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">👤 Users List</h3>
+            <form method="get" asp-action="Index" class="d-flex">
+                <input type="text" name="emial" class="form-control form-control-sm me-2" placeholder="Search by email..." />
+                <button type="submit" class="btn btn-light btn-sm">Search</button>
+            </form>
+        </div>
+
+        <div class="card-body p-4">
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-warning text-center py-3">
+                    <strong>No users found.</strong>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Roles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td class="fw-semibold">@Model[i].FullName</td>
+                                    <td>@Model[i].Email</td>
+                                    <td>
+                                        @if (Model[i].Roles != null && Model[i].Roles.Any())
+                                        {
+                                            foreach (var role in Model[i].Roles)
+                                            {
+                                                <span class="badge bg-secondary me-1">@role</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No Roles</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
