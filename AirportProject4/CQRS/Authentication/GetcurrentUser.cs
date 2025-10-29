@@ -24,7 +24,8 @@ namespace AirportProject4.CQRS.Authentication
                 DisplayName = request.AppUser.UserName,
                 Email = request.AppUser.Email,
                 PassportNumber = request.AppUser.PassportNumber,
-                Token = await _jwtService.CreateToken(request.AppUser, _userManager)
+                image = request.AppUser.ImageUrl?? "no image"
+                
             };
         }
     }
