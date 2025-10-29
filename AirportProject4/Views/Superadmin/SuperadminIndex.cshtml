@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "SuperAdmin Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h2 class="text-primary">👑 Welcome, SuperAdmin!</h2>
+        <p class="lead">This is your control dashboard.</p>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <a asp-controller="Admin" asp-action="AdminIndex" class="btn btn-outline-primary">Go to Admin Panel</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to Home</a>
+    </div>
+</div>

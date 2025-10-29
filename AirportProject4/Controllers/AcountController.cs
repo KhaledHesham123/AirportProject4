@@ -61,7 +61,45 @@ namespace AirportProject4.Controllers
                 var signinResult = await _mediator.Send(new login(loginViewModle));
                 if (signinResult !=null)
                 {
-                    return RedirectToAction(nameof(FlightController.Index), "Flight");
+                    if (signinResult.role == "Admin")
+                    {
+                        var cookieOptions = new CookieOptions
+                        {
+                            Expires = DateTimeOffset.Now.AddHours(1),
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        };
+
+                        Response.Cookies.Append("AdminToken", signinResult.Token, cookieOptions);
+                        return RedirectToAction("AdminIndex", "Admin");
+                    }
+                    else if (signinResult.role == "SuperAdmin")
+                    {
+                        var cookieOptions = new CookieOptions
+                        {
+                            Expires = DateTimeOffset.Now.AddHours(1),
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        };
+
+                        Response.Cookies.Append("SuperAdminToken", signinResult.Token, cookieOptions);
+                        return RedirectToAction(nameof(SuperadminController.SuperadminIndex), "Superadmin");
+                    }
+                    else
+                    {
+                        var cookieOptions = new CookieOptions
+                        {
+                            Expires = DateTimeOffset.Now.AddHours(1),
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        };
+
+                        Response.Cookies.Append("UserToken", signinResult.Token, cookieOptions);
+                        return RedirectToAction(nameof(FlightController.Index), "Flight");
+                    }
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login");
             }

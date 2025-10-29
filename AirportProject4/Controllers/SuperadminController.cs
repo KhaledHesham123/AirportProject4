@@ -4,7 +4,7 @@ namespace AirportProject4.Controllers
 {
     public class SuperadminController : Controller
     {
-        public IActionResult Index()
+        public IActionResult SuperadminIndex()
         {
             return View();
         }

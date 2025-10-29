@@ -141,7 +141,7 @@ namespace AirportProject4
             app.MapStaticAssets();
             app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Flight}/{action=Index}/{id?}")
+    pattern: "{controller=Acount}/{action=Signin}/{id?}")
     .WithStaticAssets();
 
             app.Run();

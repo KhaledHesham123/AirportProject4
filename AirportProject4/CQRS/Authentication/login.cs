@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AirportProject4.CQRS.Authentication
 {
-    public record login(LoginViewModle loginDto) : IRequest<USerDto?>;
+    public record login(LoginViewModle loginDto) : IRequest<USerToreturnDto?>;
 
-    public class loginHandler : IRequestHandler<login, USerDto>
+    public class loginHandler : IRequestHandler<login, USerToreturnDto>
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -21,7 +21,7 @@ namespace AirportProject4.CQRS.Authentication
             this._signInManager = signInManager;
             this.jwtService = jwtService;
         }
-        public async Task<USerDto?> Handle(login request, CancellationToken cancellationToken)
+        public async Task<USerToreturnDto?> Handle(login request, CancellationToken cancellationToken)
         {
             var User = await _userManager.FindByEmailAsync(request.loginDto.Email);
             if (User == null) return null;
@@ -32,12 +32,15 @@ namespace AirportProject4.CQRS.Authentication
             var result = await _signInManager.
              PasswordSignInAsync(User, request.loginDto.Password, request.loginDto.RememberMe, false);
             if (!result.Succeeded) return null;
+            var roles = await _userManager.GetRolesAsync(User);
 
-            return new USerDto
+
+            return new USerToreturnDto
             {
-                DisplayName = User.UserName,
-                Email = User.Email,
-                Token = await jwtService.CreateToken(User, _userManager)
+                DisplayName = User.UserName??"null",
+                Email = User.Email ?? "null",
+                Token = await jwtService.CreateToken(User, _userManager),
+                role = roles.FirstOrDefault()?? "null"
             };
         }
     }

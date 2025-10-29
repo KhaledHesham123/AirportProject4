@@ -4,6 +4,7 @@ using AirportProject4.Project.core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirportProject4.Controllers
 {
@@ -78,7 +79,7 @@ namespace AirportProject4.Controllers
                 var result = await roleManager.CreateAsync(role);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Flight", "Index");
+                    return RedirectToAction("AdminIndex", "Admin");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -91,6 +92,61 @@ namespace AirportProject4.Controllers
 
                 Console.WriteLine($"Error: {ex.Message}");
                 return View(model);
+            }
+
+
+
+        }
+
+
+        public async Task<IActionResult> GetUsers(string? email)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    var allUsers = await userManager.Users.ToListAsync();
+                    var usersList = new List<UserviewModle>();
+
+                    foreach (var u in allUsers)
+                    {
+                        var roles = await userManager.GetRolesAsync(u);
+                        usersList.Add(new UserviewModle
+                        {
+                            Id = u.Id,
+                            FullName = u.FullName,
+                            Email = u.Email,
+                            passportNumber = u.PassportNumber,
+                            ImageUrl = u.ImageUrl,
+                            Roles = roles
+                        });
+                    }
+
+                    return View(usersList);
+
+                }
+
+                var user = await userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    return NotFound($"User with email {email} not found.");
+                }
+                var userViewModel = new UserviewModle
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    ImageUrl = user.ImageUrl,
+                    passportNumber = user.PassportNumber,
+                    Roles = await userManager.GetRolesAsync(user)
+                };
+
+                return View(new List<UserviewModle> { userViewModel });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"error wihle geting Users{ex.Message}");
+                return View();
             }
 
         }
